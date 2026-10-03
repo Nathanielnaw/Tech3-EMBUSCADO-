@@ -89,9 +89,9 @@ Customer and staff records are stored in MySQL, not static controller arrays. Na
 
 ## Student submission steps
 
-The intended TFA3 repository is <https://github.com/Nathanielnaw/Tech3-EMBUSCADO->. Confirm that the files have been pushed there before submitting the link.
+The TFA3 repository is <https://github.com/Nathanielnaw/Tech3-EMBUSCADO->.
 
 1. Import the SQL (or migrate an existing TFA2 database), set your local `.env`, run the project, and verify the listing and form routes.
-2. Submit the TFA3 GitHub repository URL after confirming the push.
+2. Submit the TFA3 GitHub repository URL above.
 3. Submit `database/pos_db_export.sql` as the database export. It contains only fictional seed data, not private records or uploaded images.
 4. Deploy the application to an authorized hosting service whose document root points to `public`, configure its own database/environment securely, and submit the hosted URL. No hosted application has been created or verified yet.
