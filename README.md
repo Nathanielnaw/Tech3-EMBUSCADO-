@@ -77,7 +77,7 @@ Customer and staff records are stored in MySQL, not static controller arrays. Th
 
 ## Student submission steps
 
-The project repository is available at <https://github.com/Nathanielnaw/Tech1-EMBUSCADO->.
+The project repository is available at <https://github.com/Nathanielnaw/Tech2-EMBUSCADO->.
 
 1. Import the SQL, set your local `.env`, run the project, and verify the four routes.
 2. Submit the GitHub repository URL above.
