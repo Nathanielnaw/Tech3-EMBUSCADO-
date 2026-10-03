@@ -1,12 +1,12 @@
 # POS Foundations (CodeIgniter 4)
 
-This project continues **IT0049 TFA1** with **TFA2: From Arrays to a Real Database**. The four POS pages and navigation remain in place; the Customer Accounts and User Accounts pages now read from MySQL through CodeIgniter models.
+This project continues the IT0049 POS activities through **TFA3: Making It Editable**. The original four pages and navigation remain in place. Customer and user records live in MySQL and can now be created and edited through validated forms. User avatars can be uploaded when editing a record.
 
 ## Prerequisites
 
 - PHP 8.2 or newer
 - Composer
-- PHP extensions `intl`, `mbstring`, `mysqli`, and `zip` (Zip is needed for Composer archive downloads)
+- PHP extensions `intl`, `mbstring`, `mysqli`, `fileinfo`, and `gd`; `zip` is useful for Composer archive downloads
 - MySQL or MariaDB (XAMPP includes MariaDB and the MySQL command-line client)
 
 ## Setup
@@ -29,7 +29,7 @@ database.default.DBDriver = MySQLi
 database.default.port = 3306
 ```
 
-Use your actual MySQL credentials if they differ. `.env` is ignored by Git; `.env.example` contains no credentials. Change `app.baseURL` when running at a different URL.
+Use your actual MySQL credentials if they differ. `.env` is ignored by Git; `.env.example` contains no credentials. Change `app.baseURL` when running at a different URL. In XAMPP, enable `extension=gd` (and `extension=fileinfo` if disabled) in `php.ini` and restart PHP/Apache before testing uploads. PHP's `upload_tmp_dir` must also point to a writable directory.
 
 ## Database setup
 
@@ -40,9 +40,17 @@ mysql --user=root --execute="source database/schema.sql"
 mysql --user=root --execute="source database/seed.sql"
 ```
 
-The schema creates the `pos_db` database and the exact `customers` and `users` columns required by TFA2. The seed script adds five fictional records to each table on a fresh database. Re-running it does not overwrite rows with the same ID or username.
+The schema creates the `pos_db` database and the TFA2 tables, including TFA3's nullable `users.avatar` column. The seed script adds five fictional records to each table on a fresh database. Re-running it does not overwrite rows with the same ID or username.
 
-For submission, [database/pos_db_export.sql](database/pos_db_export.sql) is a self-contained SQL export of that schema and fictional sample data. It has no credentials and can be imported into a fresh MySQL or MariaDB installation with:
+If you already have the TFA2 database, preserve its existing rows and add the avatar column with:
+
+```bash
+php spark migrate
+```
+
+The `AddAvatarToUsers` migration checks whether the column exists, so it also works after importing the updated schema or export. If your existing TFA2 database was created before this migration, run it once before opening the Users page. Do not re-import the SQL export over private data.
+
+For submission, [database/pos_db_export.sql](database/pos_db_export.sql) is a self-contained SQL export of the fresh TFA3 schema and fictional sample data. It has no credentials and can be imported into a fresh MySQL or MariaDB installation with:
 
 ```powershell
 mysql --user=root --execute="source database/pos_db_export.sql"
@@ -67,19 +75,23 @@ Open <http://localhost:8080/> in a browser.
 | `/` | Landing page | `Pages::home` |
 | `/about` | About page | `Pages::about` |
 | `/customers` | Customer Accounts | `Customers::index` |
+| `/customers/new` | New Customer form | `Customers::create` |
+| `/customers/{id}/edit` | Edit Customer form | `Customers::edit` |
 | `/users` | User Accounts | `Users::index` |
+| `/users/new` | New User form | `Users::create` |
+| `/users/{id}/edit` | Edit User form and optional avatar upload | `Users::edit` |
 
-All four pages share the main navigation and use framework URL helpers for links. The two listing controllers call `CustomerModel` and `UserModel`; their views still render and escape each row with `foreach`. The Users page shows `created_at` where TFA1 showed a role because the TFA2 `users` table has no `role` column.
+The forms submit by POST to `/customers`, `/customers/{id}`, `/users`, and `/users/{id}`. All forms include CodeIgniter CSRF tokens. The two listing controllers call `CustomerModel` and `UserModel`; their views render and escape each row with `foreach`. The Users page shows `created_at` where TFA1 showed a role because the TFA2 schema has no `role` column.
 
 ## Data scope
 
-Customer and staff records are stored in MySQL, not static controller arrays. The SQL files make the database setup repeatable; the application only reads these records and does not require edit forms.
+Customer and staff records are stored in MySQL, not static controller arrays. Names and email addresses are validated; usernames must be unique, including when editing an existing user. Images are optional and can be uploaded on the user edit form only. The server accepts actual JPG/JPEG or PNG images of at most 2 MB, makes a 160×160 display copy with CodeIgniter's Image service, and saves it under `public/uploads/avatars/` using a random generated filename. Only that filename is stored in the database. Uploaded images are ignored by Git; back up that directory separately if you need to preserve real avatars. The listing uses `public/images/avatar-placeholder.svg` when no usable avatar exists.
 
 ## Student submission steps
 
-The project repository is available at <https://github.com/Nathanielnaw/Tech2-EMBUSCADO->.
+The intended TFA3 repository is <https://github.com/Nathanielnaw/Tech3-EMBUSCADO->. Confirm that the files have been pushed there before submitting the link.
 
-1. Import the SQL, set your local `.env`, run the project, and verify the four routes.
-2. Submit the GitHub repository URL above.
-3. Submit `database/pos_db_export.sql` as the database export.
-4. Deploy the application to an authorized hosting service whose document root points to the `public` directory, then submit the hosted URL. No hosted application has been created or verified yet.
+1. Import the SQL (or migrate an existing TFA2 database), set your local `.env`, run the project, and verify the listing and form routes.
+2. Submit the TFA3 GitHub repository URL after confirming the push.
+3. Submit `database/pos_db_export.sql` as the database export. It contains only fictional seed data, not private records or uploaded images.
+4. Deploy the application to an authorized hosting service whose document root points to `public`, configure its own database/environment securely, and submit the hosted URL. No hosted application has been created or verified yet.

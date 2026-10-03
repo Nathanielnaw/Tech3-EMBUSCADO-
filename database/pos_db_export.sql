@@ -1,4 +1,4 @@
--- TFA2 submission export with fictional sample records and no credentials.
+-- TFA3 submission export with fictional sample records and no credentials.
 -- Import into a fresh MySQL/MariaDB instance to recreate the activity database.
 CREATE DATABASE IF NOT EXISTS `pos_db`
     CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
@@ -17,7 +17,8 @@ CREATE TABLE IF NOT EXISTS `users` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
     `username` VARCHAR(50) NOT NULL UNIQUE,
     `full_name` VARCHAR(100) NOT NULL,
-    `created_at` DATETIME NOT NULL
+    `created_at` DATETIME NOT NULL,
+    `avatar` VARCHAR(255) NULL
 );
 
 INSERT INTO `customers` (`id`, `full_name`, `email`, `phone`, `created_at`) VALUES

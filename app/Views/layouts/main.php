@@ -23,6 +23,18 @@
         .actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.5rem; }
         .button { background: #1d70a2; border-radius: .45rem; color: #fff; display: inline-block; padding: .7rem 1rem; text-decoration: none; }
         .button:hover, .button:focus { background: #15567d; }
+        .button.secondary { background: #e4ebf2; color: #17324d; }
+        .button.secondary:hover, .button.secondary:focus { background: #cfdeeb; }
+        button.button { border: 0; cursor: pointer; font: inherit; }
+        .field { margin: 1.2rem 0; }
+        .field label { display: block; font-weight: 600; margin-bottom: .4rem; }
+        .field input { border: 1px solid #aab9c9; border-radius: .4rem; font: inherit; max-width: 34rem; padding: .7rem; width: 100%; }
+        .field input:focus { outline: 2px solid #1d70a2; outline-offset: 1px; }
+        .hint { color: #5b6b7c; font-size: .9rem; }
+        .alert { background: #fff1f1; border: 1px solid #c65757; border-radius: .4rem; color: #762929; padding: .75rem 1rem; }
+        .alert p { margin: .2rem 0; }
+        .alert ul { margin: .35rem 0; }
+        .avatar { background: #dbe7f2; border-radius: 50%; display: block; height: 44px; object-fit: cover; width: 44px; }
         table { border-collapse: collapse; margin-top: 1.25rem; width: 100%; }
         th, td { border-bottom: 1px solid #dbe3ed; padding: .85rem .65rem; text-align: left; }
         th { background: #eef4fa; color: #244a6b; }

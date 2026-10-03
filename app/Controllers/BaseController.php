@@ -42,4 +42,11 @@ abstract class BaseController extends Controller
         // Preload any models, libraries, etc, here.
         // $this->session = service('session');
     }
+
+    protected function postString(string $name): string
+    {
+        $value = $this->request->getPost($name);
+
+        return is_string($value) ? trim($value) : '';
+    }
 }

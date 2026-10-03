@@ -1,4 +1,5 @@
--- TFA2 schema. Safe to run again: existing tables and records are preserved.
+-- TFA3 fresh schema. Safe to run again: existing tables and records are preserved.
+-- For a TFA2 database without users.avatar, run php spark migrate after import.
 CREATE DATABASE IF NOT EXISTS `pos_db`
     CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
@@ -16,5 +17,6 @@ CREATE TABLE IF NOT EXISTS `users` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
     `username` VARCHAR(50) NOT NULL UNIQUE,
     `full_name` VARCHAR(100) NOT NULL,
-    `created_at` DATETIME NOT NULL
+    `created_at` DATETIME NOT NULL,
+    `avatar` VARCHAR(255) NULL
 );
